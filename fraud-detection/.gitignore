@@ -1,0 +1,31 @@
+# Large data files — download from Kaggle
+data/raw/creditcard.csv
+data/raw/*.csv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Models (too large for git — use S3/DVC later)
+models/*.pkl
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Environment
+.env
+*.env
+
+
+__pycache__/
+*.pyc
+*.pyo
+venv/
+data/raw/*.csv
+models/*.pkl
+.env
+.ipynb_checkpoints/
+reports/*.png
