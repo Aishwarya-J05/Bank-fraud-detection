@@ -2,16 +2,6 @@
 import time
 import logging
 import joblib
-
-import sys
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent
-
-# 🔥 CRITICAL FIX
-sys.path.append(str(BASE_DIR))
-sys.path.append(str(BASE_DIR / "src"))
-
 import shutil
 import pandas as pd
 import numpy as np
@@ -32,7 +22,6 @@ artifacts = {}
 
 
 def download_models():
-    """Pull model artifacts from HF Hub at startup."""
     MODELS_DIR.mkdir(exist_ok=True)
     files = [
         "xgb_fraud_model.pkl",
@@ -54,20 +43,16 @@ def download_models():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     download_models()
-    artifacts["model"] = joblib.load(MODELS_DIR / "xgb_fraud_model.pkl")
+    artifacts["model"]        = joblib.load(MODELS_DIR / "xgb_fraud_model.pkl")
     artifacts["preprocessor"] = joblib.load(MODELS_DIR / "preprocessor.pkl")
-    artifacts["explainer"] = joblib.load(MODELS_DIR / "shap_explainer.pkl")
-    artifacts["threshold"] = joblib.load(MODELS_DIR / "optimal_threshold.pkl")
-    logger.info(f"Ready. Threshold: {artifacts['threshold']:.2f}")
+    artifacts["explainer"]    = joblib.load(MODELS_DIR / "shap_explainer.pkl")
+    artifacts["threshold"]    = joblib.load(MODELS_DIR / "optimal_threshold.pkl")
+    logger.info(f"Ready. Threshold: {artifacts['threshold']:.4f}")
     yield
     artifacts.clear()
 
 
-app = FastAPI(
-    title="Bank Fraud Detection API",
-    version="1.0.0",
-    lifespan=lifespan
-)
+app = FastAPI(title="Bank Fraud Detection API", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -80,34 +65,13 @@ app.add_middleware(
 class TransactionRequest(BaseModel):
     Time: float = 0.0
     Amount: float = Field(..., gt=0)
-    V1: float = 0.0
-    V2: float = 0.0
-    V3: float = 0.0
-    V4: float = 0.0
-    V5: float = 0.0
-    V6: float = 0.0
-    V7: float = 0.0
-    V8: float = 0.0
-    V9: float = 0.0
-    V10: float = 0.0
-    V11: float = 0.0
-    V12: float = 0.0
-    V13: float = 0.0
-    V14: float = 0.0
-    V15: float = 0.0
-    V16: float = 0.0
-    V17: float = 0.0
-    V18: float = 0.0
-    V19: float = 0.0
-    V20: float = 0.0
-    V21: float = 0.0
-    V22: float = 0.0
-    V23: float = 0.0
-    V24: float = 0.0
-    V25: float = 0.0
-    V26: float = 0.0
-    V27: float = 0.0
-    V28: float = 0.0
+    V1: float = 0.0;  V2: float = 0.0;  V3: float = 0.0;  V4: float = 0.0
+    V5: float = 0.0;  V6: float = 0.0;  V7: float = 0.0;  V8: float = 0.0
+    V9: float = 0.0;  V10: float = 0.0; V11: float = 0.0; V12: float = 0.0
+    V13: float = 0.0; V14: float = 0.0; V15: float = 0.0; V16: float = 0.0
+    V17: float = 0.0; V18: float = 0.0; V19: float = 0.0; V20: float = 0.0
+    V21: float = 0.0; V22: float = 0.0; V23: float = 0.0; V24: float = 0.0
+    V25: float = 0.0; V26: float = 0.0; V27: float = 0.0; V28: float = 0.0
 
 
 @app.get("/health")
@@ -147,7 +111,6 @@ async def predict(transaction: TransactionRequest):
             }
 
         latency_ms = (time.perf_counter() - start) * 1000
-
         return {
             "transaction_id": f"txn_{int(time.time()*1000)}",
             "fraud_probability": round(proba, 4),
@@ -155,7 +118,7 @@ async def predict(transaction: TransactionRequest):
             "risk_level": "HIGH" if proba >= 0.7 else "MEDIUM" if proba >= 0.4 else "LOW",
             "top_risk_factors": top_factors,
             "inference_latency_ms": round(latency_ms, 2),
-            "threshold_used": round(float(threshold), 2)
+            "threshold_used": round(float(threshold), 4)
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

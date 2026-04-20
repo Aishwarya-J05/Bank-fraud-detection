@@ -1,40 +1,32 @@
-from huggingface_hub import HfApi, create_repo
+# scripts/upload_models.py
+from huggingface_hub import HfApi
 from pathlib import Path
 
 api = HfApi()
 REPO_ID = "AishwaryaNJ/fraud-detection-models"
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-MODEL_DIR = BASE_DIR / "models"   # ✅ FIXED
-
-create_repo(REPO_ID, repo_type="model", exist_ok=True, private=False)
+models_dir = Path(r"C:\Users\Asus\OneDrive\Desktop\Bank fraud detection\fraud-detection\models")
 
 files = [
+    "preprocessor.pkl",  # put this first
     "xgb_fraud_model.pkl",
-    "preprocessor.pkl",
     "shap_explainer.pkl",
     "optimal_threshold.pkl"
 ]
 
-print(f"Looking for models in: {MODEL_DIR}\n")
-
-for file_name in files:
-    path = MODEL_DIR / file_name
-
+for f in files:
+    path = models_dir / f
     if not path.exists():
-        print(f"❌ MISSING: {path}")
+        print(f"MISSING: {f}")
         continue
-
-    print(f"⬆️ Uploading {file_name}...")
-
+    print(f"⬆️ Uploading {f}...")
     api.upload_file(
         path_or_fileobj=str(path),
-        path_in_repo=file_name,
+        path_in_repo=f,
         repo_id=REPO_ID,
-        repo_type="model"
+        repo_type="model",
     )
+    print(f"✅ Done: {f}")
 
-    print(f"✅ Done: {file_name}")
-
-print("\n🚀 Upload process finished")
+print("\n🚀 Upload complete")
 print(f"🔗 https://huggingface.co/{REPO_ID}")
