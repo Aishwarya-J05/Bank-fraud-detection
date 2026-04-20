@@ -2,6 +2,16 @@
 import time
 import logging
 import joblib
+
+import sys
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
+# 🔥 CRITICAL FIX
+sys.path.append(str(BASE_DIR))
+sys.path.append(str(BASE_DIR / "src"))
+
 import shutil
 import pandas as pd
 import numpy as np
