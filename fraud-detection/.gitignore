@@ -29,3 +29,6 @@ models/*.pkl
 .env
 .ipynb_checkpoints/
 reports/*.png
+
+models/
+*.pkl
