@@ -61,9 +61,8 @@ Interactive Dashboard (Static HTML, HuggingFace Spaces)
 
 | Service | URL |
 |---|---|
-| 🖥️ Dashboard | https://aishwaryanj-fraud-detection-dashboard.hf.space |
-| ⚡ API | https://aishwaryanj-fraud-detection-api.hf.space |
-| 📖 API Docs | https://aishwaryanj-fraud-detection-api.hf.space/docs |
+| 🖥️ Dashboard | https://huggingface.co/spaces/AishwaryaNJ/fraud-detection-dashboard |
+| ⚡ API | https://huggingface.co/spaces/AishwaryaNJ/fraud-detection-api |
 | 🤗 Models | https://huggingface.co/AishwaryaNJ/fraud-detection-models |
 
 ---
