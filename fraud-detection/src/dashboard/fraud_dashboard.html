@@ -466,12 +466,12 @@ async function checkHealth() {
 }
 
 function switchTab(id) {
-  ['score','batch','history'].forEach(t => {
+  ['score','history'].forEach(t => {
     document.getElementById('tab-' + t).classList.toggle('active', t === id);
     document.getElementById('pane-' + t).classList.toggle('active', t === id);
     document.getElementById('nav-' + t).classList.toggle('active', t === id);
   });
-  const titles = { score: 'Score Transaction', batch: 'Batch Scoring', history: 'Prediction History' };
+  const titles = { score: 'Score Transaction', history: 'Prediction History' };
   document.getElementById('pageTitle').textContent = titles[id];
 }
 
