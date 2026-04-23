@@ -1,5 +1,3 @@
-# 🔍 Bank Fraud Detection System
-
 ---
 title: Fraud Detection Dashboard
 emoji: 🛡️
@@ -10,18 +8,8 @@ app_file: index.html
 pinned: false
 ---
 
-# FraudSentinel — Bank Fraud Detection Dashboard
+# 🔍 Bank Fraud Detection System
 
-Real-time transaction fraud detection using XGBoost + SHAP explainability.
-
-## Model Metrics
-- Recall: 80.0%
-- Precision: 87.4%
-- PR-AUC: 0.8192
-- False Positive Rate: 0.02%
-
-## Stack
-XGBoost · Optuna · SHAP · FastAPI · HTML/CSS/JS
 
 > Real-time transaction fraud detection using XGBoost + SHAP explainability, deployed on Hugging Face Spaces.
 
