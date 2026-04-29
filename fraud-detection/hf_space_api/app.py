@@ -3,6 +3,7 @@ import logging
 import joblib
 import shutil
 import sys
+import types
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -15,6 +16,13 @@ from huggingface_hub import hf_hub_download
 import preprocessor as hf_preprocessor
 from preprocessor import FraudPreprocessor  # noqa: F401 - required for pickle deserialization
 
+src_module = types.ModuleType("src")
+data_module = types.ModuleType("src.data")
+src_module.data = data_module
+data_module.preprocessor = hf_preprocessor
+
+sys.modules["src"] = src_module
+sys.modules["src.data"] = data_module
 sys.modules["src.data.preprocessor"] = hf_preprocessor
 
 logging.basicConfig(level=logging.INFO)
