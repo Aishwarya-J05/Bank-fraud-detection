@@ -1,13 +1,3 @@
----
-title: Fraud Detection Dashboard
-emoji: 🛡️
-colorFrom: blue
-colorTo: red
-sdk: static
-app_file: index.html
-pinned: false
----
-
 # 🔍 Bank Fraud Detection System
 
 
