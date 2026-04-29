@@ -2,6 +2,7 @@ import time
 import logging
 import joblib
 import shutil
+import sys
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -11,7 +12,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from huggingface_hub import hf_hub_download
-from preprocessor import FraudPreprocessor  # noqa: F401 — required for pickle deserialization
+import preprocessor as hf_preprocessor
+from preprocessor import FraudPreprocessor  # noqa: F401 - required for pickle deserialization
+
+sys.modules["src.data.preprocessor"] = hf_preprocessor
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -25,13 +29,10 @@ def download_models():
     MODELS_DIR.mkdir(exist_ok=True)
     for f in ["xgb_fraud_model.pkl", "preprocessor.pkl", "shap_explainer.pkl", "optimal_threshold.pkl"]:
         dest = MODELS_DIR / f
-        if dest.exists():
-            logger.info(f"Exists: {f}")
-            continue
-        logger.info(f"Downloading {f}...")
-        path = hf_hub_download(repo_id=REPO_ID, filename=f)
+        logger.info(f"Downloading latest {f}...")
+        path = hf_hub_download(repo_id=REPO_ID, filename=f, force_download=True)
         shutil.copy(path, dest)
-        logger.info(f"Saved: {f}")
+        logger.info(f"Saved latest: {f}")
 
 
 @asynccontextmanager
